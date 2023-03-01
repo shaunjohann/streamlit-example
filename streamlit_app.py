@@ -4,6 +4,7 @@ import math
 import pandas as pd
 import streamlit as st
 
+
 import os
 import yaml
 
@@ -12,6 +13,18 @@ from langchain.agents.agent_toolkits import OpenAPIToolkit
 from langchain.llms.openai import OpenAI
 from langchain.requests import RequestsWrapper
 from langchain.tools.json.tool import JsonSpec
+
+
+"""
+# Welcome to Streamlit!
+
+Edit `/streamlit_app.py` to customize this app to your heart's desire :heart:
+
+If you have any questions, checkout our [documentation](https://docs.streamlit.io) and [community
+forums](https://discuss.streamlit.io).
+
+In the meantime, below is an example of what you can do with just a few lines of code:
+"""
 
 with open("openai_openapi.yml") as f:
     data = yaml.load(f, Loader=yaml.FullLoader)
@@ -27,16 +40,14 @@ openapi_agent_executor = create_openapi_agent(
     verbose=True
 )
 
-"""
-# Welcome to Streamlit!
+question = st.text_input("Enter your question")
+if question:
+    response = openapi_agent_executor.run(f"Make a post request to openai /completions. The prompt should be '{question}'")
 
-Edit `/streamlit_app.py` to customize this app to your heart's desire :heart:
+    st.write("Responses:")
+    for text in response["choices"][0]["text"].split("\n"):
+        st.write(text)
 
-If you have any questions, checkout our [documentation](https://docs.streamlit.io) and [community
-forums](https://discuss.streamlit.io).
-
-In the meantime, below is an example of what you can do with just a few lines of code:
-"""
 
 
 with st.echo(code_location='below'):
