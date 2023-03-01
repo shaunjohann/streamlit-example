@@ -1,3 +1,5 @@
 altair
 pandas
 streamlit
+langchain=0.0.98
+openai
